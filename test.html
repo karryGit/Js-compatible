@@ -11,25 +11,70 @@
 
 </body>
 <script>
-   var arr = [11,22,33,44,55,66];
-   //every 参数函数(1:数组中的每一个,2:数组的下标,3:数组的自身,4arguments[0:代表数组每一个值,1:数组下标,2:数组自身])
-    arr.every(function (value,index,array) {
+    var arr = [11, 22, 33, 44, 55, 66];
+    //every 参数函数(1:数组中的每一个,2:数组的下标,3:数组的自身,4arguments[0:代表数组每一个值,1:数组下标,2:数组自身])
+    arr.every(function (value, index, array) {
 //        console.log(value,index,array,arguments[0]);
     })
-   var ages = [32, 33, 16, 40];
+    var ages = [32, 33, 16, 40];
+
+//    //传入函数判断条件
+//    function Test(value) {
+//        return value <= 40;
+//    }
+//
+//    //如果数组中的条件满足则打印朕准了,不满足打印来人拖出去斩了
+//    if (ages.every(Test)) {
+//        console.log("朕准了！");
+//    } else {
+//        console.log("来人，拖出去斩了！");
+//    }
+
+    if (!Array.prototype.every) {
+        Array.prototype.Myevery = function (callback, thisArg) {
+            'use strict';
+            if (typeof callback !== 'function') {
+                throw new TypeError(callback + ' is not a function');
+            }
+            var thisArg;
+            for (var i = 0; i < this.length; i++) {
+                if (Object.prototype.hasOwnProperty.call(this, i)) {
+                    callback(this[i], i, this);
+                    thisArg = arguments[i];
+                    if (i in this && !callback.call(thisArg, this[i], i, this)){
+                         return false;
+                    }
+                }
+            }
+            return true;
+        }
+    }
     //传入函数判断条件
     function Test(value) {
-        return value <= 40;
+        return value >= 40;
     }
     //如果数组中的条件满足则打印朕准了,不满足打印来人拖出去斩了
-   if (ages.every(Test)) {
-       console.log("朕准了！");
-   } else {
-       console.log("来人，拖出去斩了！");
-   }
-
-
+    if (ages.Myevery(Test)) {
+        console.log("朕准了！");
+    } else {
+        console.log("来人，拖出去斩了！");
+    }
 
 
 </script>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
