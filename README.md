@@ -166,3 +166,9 @@ if (scores.some1(function (value) {
 
 ***
 
+### every
+
+```
+
+```
+

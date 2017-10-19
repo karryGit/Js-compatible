@@ -18,47 +18,65 @@
     })
     var ages = [32, 33, 16, 40];
 
-//    //传入函数判断条件
-//    function Test(value) {
-//        return value <= 40;
-//    }
-//
-//    //如果数组中的条件满足则打印朕准了,不满足打印来人拖出去斩了
-//    if (ages.every(Test)) {
-//        console.log("朕准了！");
-//    } else {
-//        console.log("来人，拖出去斩了！");
-//    }
-
+    //    //传入函数判断条件
+    //    function Test(value) {
+    //        return value <= 40;
+    //    }
+    //
+    //    //如果数组中的条件满足则打印朕准了,不满足打印来人拖出去斩了
+    //    if (ages.every(Test)) {
+    //        console.log("朕准了！");
+    //    } else {
+    //        console.log("来人，拖出去斩了！");
+    //    }
+    //首先判断是否为IE浏览器
     if (!Array.prototype.every) {
+        //通过原型方法写一个函数
         Array.prototype.Myevery = function (callback, thisArg) {
+            //IE下使用严格模式
             'use strict';
+            //判断传入的是否为一个函数
             if (typeof callback !== 'function') {
+                //如果不是函数则抛出一个类型错误
                 throw new TypeError(callback + ' is not a function');
             }
+            //定义一个第二个参数
             var thisArg;
+            //遍历传入的数组
             for (var i = 0; i < this.length; i++) {
+                //判断如果数组中有值被删掉或者不存在
                 if (Object.prototype.hasOwnProperty.call(this, i)) {
+                    //给函数添加参数
                     callback(this[i], i, this);
+                    //给第二个参数绑定方法 arguments
                     thisArg = arguments[i];
-                    if (this[i] && !callback.call(thisArg, this[i], i, this)){
-                         return false;
+                    //如果传入的数组每一个值&& 不符合我们所传参的函数 return false
+                    if (this[i] && !callback.call(thisArg, this[i], i, this)) {
+                        return false;
+                    }else {
+                        //不满足条件则 return true
+                        return true;
                     }
                 }
             }
-            return true;
         }
     }
+
     //传入函数判断条件
     function Test(value) {
         return value >= 40;
     }
+
     //如果数组中的条件满足则打印朕准了,不满足打印来人拖出去斩了
     if (ages.Myevery(Test)) {
         console.log("朕准了！");
     } else {
         console.log("来人，拖出去斩了！");
     }
+    arr.Myevery(function (value, index, array) {
+        console.log(value, index, array, arguments[0]);
+    })
+
 </script>
 </html>
 
